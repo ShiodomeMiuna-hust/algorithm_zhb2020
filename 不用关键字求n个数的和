@@ -1,0 +1,12 @@
+--------------------------------------------
+不多说，就是一个逻辑最短路的知识点，给大佬跪了
+--------------------------------------------
+class Solution {
+public:
+    int Sum_Solution(int n) {
+        int ans;
+        ans=n;
+        ans&&(ans+=Sum_Solution(n-1));
+         return ans;
+    }
+};
