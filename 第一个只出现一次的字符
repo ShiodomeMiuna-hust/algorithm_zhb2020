@@ -1,0 +1,32 @@
+--------------------------------------------------
+这里题目提示用的是空间换时间复杂度，然后准备用一个map
+来实现该功能，将map中对应的数组存放相应的次数，每次增
+加1，这样即可记录每个字符出现的次数即可，遍历三遍，时
+间复杂度为O（n）
+--------------------------------------------------
+class Solution {
+public:
+    int FirstNotRepeatingChar(string str) {
+          map<char, int>check;
+	     map<char, string>::iterator iter;
+	int size=str.size();
+	int cnt=0,result=0;
+	while (cnt < size)
+	{
+		check[str[cnt]]++;
+		cnt++;
+	}
+	cnt = 0;
+	while (cnt < size) {
+		if (check[str[cnt]] == 1)
+		{
+			result = cnt;
+			break;
+		}
+		cnt++;
+	}
+	if (cnt == size)
+		result = -1;
+        return result;
+    }
+};
