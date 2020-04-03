@@ -1,0 +1,45 @@
+--------------------------------------
+采用滑动窗口的方法，规定以后窗口向后滑动
+如果出现重复的字符串停止滑动，更新最大值
+结束后比较最大并返回即可，本来想用动态规
+划，实在想不出来，算了
+--------------------------------------
+下面附上源码
+
+
+
+
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        const int len=s.length();
+        int left=0,right=0,maxlen=0;
+        while(right<len)
+        {
+            if(checkstring(s,left,right,s[right])==-1)
+            {
+                right++;
+            }
+            else
+            {
+                maxlen=maxlen>right-left?maxlen:right-left;
+                left=checkstring(s,left,right,s[right])+1;
+            }
+        }
+         maxlen=maxlen>right-left?maxlen:right-left;
+        return maxlen;
+        
+    }
+    int checkstring(string s,int left,int right,char target)
+    {
+        int cnt=left;
+        while(cnt<right)
+        {
+            if(s[cnt]!=s[right])
+            cnt++;
+            else
+            return cnt; 
+        }
+        return -1;
+    }
+};
