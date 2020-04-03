@@ -1,0 +1,36 @@
+---------------------------------
+leetcode原题，直接暴力求解肯定可以，
+但是需要在logn时间复杂度，所以这里
+采用删元素的方法，比如要找第n个小的
+元素。首先把n/2的元素删掉，依次递归
+到最后总能删除完毕。方法十分巧妙。下
+面附上代码
+-------------------------------
+
+
+class Solution {
+public:
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+        int len1=nums1.size();
+        int len2=nums2.size();
+        int total=len1+len2;
+        int left=(total+1)/2;
+        int right=(total+2)/2;
+        return ((findk(nums1,0,nums2,0,left)+findk(nums1,0,nums2,0,right))/2.0);
+    }
+    int findk(vector<int>& nums1,int i,vector<int>& nums2,int j,int k)
+    {
+        if(i>=nums1.size())
+        return nums2[j+k-1];
+        if(j>=nums2.size())
+        return nums1[i+k-1];
+        if(k==1)
+        return nums1[i]<nums2[j]?nums1[i]:nums2[j];
+        int mid1=(i+k/2-1)<nums1.size()?nums1[i+k/2-1]:65535;
+        int mid2=(j+k/2-1)<nums2.size()?nums2[j+k/2-1]:65535;
+        if(mid1<mid2)
+        return findk(nums1,i+k/2,nums2,j,k-k/2);
+        else
+        return findk(nums1,i,nums2,j+k/2,k-k/2);
+    }
+};
