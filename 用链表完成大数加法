@@ -1,0 +1,74 @@
+----------------------------
+大数加法，不多说用链表完成，实
+实际上不难，算法精妙在需要先补
+齐数组长度
+-----------------------------
+下面附上源码
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        int length1=1,length2=1;
+        ListNode* l3=new ListNode(-1);
+        ListNode *p1=l1;
+        int cnt=0;
+        while(p1->next!=NULL)
+        {
+            length1++;
+            p1=p1->next;
+        }
+        ListNode *p2=l2;
+        while(p2->next!=NULL)
+        {
+            length2++;
+            p2=p2->next;
+        }
+        if(length1>length2)
+        {
+            for(int i=1;i<=(length1-length2);i++)
+            {
+                p2->next=new ListNode(0);
+                p2=p2->next;
+            }
+        }
+        else
+        {
+            for(int i=1;i<=(length2-length1);i++)
+            {
+                p1->next=new ListNode(0);
+                p1=p1->next;
+            }
+        }
+        p1=l1;
+        p2=l2;
+        int count=0;
+        int sum=0;
+        ListNode *q3=l3;
+        while(p1!=NULL&&p2!=NULL)
+        {
+            sum=(p1->val)+(p2->val)+count;
+            q3->next=new ListNode(sum%10);
+            p1=p1->next;
+            p2=p2->next;
+            q3=q3->next;
+            if(sum/10)
+            count=1;
+            else
+            count=0;
+        }
+        if(count)
+        {
+            q3->next=new ListNode(1);
+            q3=q3->next;
+        }
+        return l3->next;
+    }
+};
