@@ -1,0 +1,75 @@
+-------------------------
+就算这个字符串中间包着整数
+我也能把他找出来！
+power！！！！！
+------------------------
+#include <cstdio>
+#include <string>
+#include <iostream>
+#include <vector>
+using namespace std;
+int main() {
+    string str = "worfd asdasd 812739";
+    vector<int >arra;
+    int size = str.length();
+    int tag = -1;
+    int start = 0;
+    int cnt = 0;
+    while (cnt < size)
+    {
+        if (str[cnt] == '+' && str[cnt + 1] <= '9' && str[cnt + 1] >= '0')
+        {
+            start = 1;
+            tag = 1;
+            cnt++;
+        }
+        else if (str[cnt] == '-' && str[cnt + 1] <= '9' && str[cnt + 1] >= '0')
+        {
+            start = 1;
+            tag = 0;
+            cnt++;
+        }
+        else if (str[cnt] <= '9' && str[cnt] >= '0')
+        {
+            if (start == 1)
+            {
+                arra.push_back(str[cnt] - '0');
+                cnt++;
+            }
+            else
+            {
+                tag = 1;
+                start = 1;
+                arra.push_back(str[cnt] - '0');
+                cnt++;
+            }
+        }
+        else
+        {
+            if (start == 1)
+                break;
+            else
+                cnt++;
+        }
+    }
+    size = arra.size();
+    cnt = 0;
+    int result = 0;
+    while (cnt < size)
+    {
+        if (result > INT_MAX / 10 || (result == INT_MAX / 10 && arra[cnt] > 7))
+        {
+            if (tag == 1)
+                return INT_MAX;
+            else
+                return INT_MIN;
+        }
+        else
+        {
+            result = result * 10 + arra[cnt];
+            cnt++;
+        }
+    }
+    cout <<"result="<< result;
+    return 0;
+}
