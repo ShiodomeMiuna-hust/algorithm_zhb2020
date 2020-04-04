@@ -1,0 +1,128 @@
+-----------------------------
+动态规划转移公式
+longest（i，j）=longest（s+1，j-1）&&(s[i]==s[j]);
+看不出来简单在哪里= - =
+这里用的中心扩展法
+-----------------------------
+class Solution {
+public:
+    string longestPalindrome(string s) {
+        int len=s.size();
+        if(len==0||len==1)
+        return s;
+        int start=0;
+        int end=0;
+        int maxlen=0;
+        int tag=0;
+        int tagji=0;
+        for(int i=0;i<len;i++)
+        {
+            int length1=checkstring(s,i,i);
+            int length2 = -1;
+            if(s[i]==s[i+1])
+            length2 = checkstring(s, i, i + 1);
+            if(length1>=length2)
+            {
+                if(length1>maxlen)
+                {
+                    maxlen=length1;
+                    tag=i;
+                    tagji=1;
+                }
+            }
+            else
+            {
+                if(length2>maxlen)
+                {
+                    maxlen=length2;
+                    tag=i;
+                    tagji=0;
+                }
+            }
+        }
+        if(tagji==1)
+        return  s.substr(tag-maxlen/2,maxlen);
+        else
+        return  s.substr(tag-maxlen/2+1,maxlen);
+        
+    }
+    int checkstring(string s,int left,int right)
+    {
+        int templeft=left;
+        int tempright=right;
+        while(templeft>0&&tempright<s.size()-1&&s[templeft-1]==s[tempright+1]){
+            templeft--;
+            tempright++;
+        }
+        return tempright-templeft+1;
+    }
+
+};
+
+--------------------------------
+完整版测试
+#include <cstdio>
+#include <string>
+#include <iostream>
+using namespace std;
+string longestPalindrome(string s);
+int checkstring(string s, int left, int right);
+string longestPalindrome(string s) {
+    int len = s.size();
+    if (len == 0 || len == 1)
+        return s;
+    int start = 0;
+    int end = 0;
+    int maxlen = 0;
+    int tag = 0;
+    int tagji = -1;
+    for (int i = 0; i < len; i++)
+    {
+        int length1 = checkstring(s, i, i);
+        int length2 = -1;
+        if(s[i]==s[i+1])
+        length2 = checkstring(s, i, i + 1);
+        if (length1 >= length2)
+        {
+            if (length1 > maxlen)
+            {
+                maxlen = length1;
+                tag = i;
+                tagji = 1;
+            }
+        }
+        else
+        {
+            if (length2 > maxlen)
+            {
+                maxlen = length2;
+                tag = i;
+                tagji = 0;
+            }
+        }
+    }
+    cout <<"maxlen="<< maxlen << endl;
+    cout <<"tag="<< tag << endl;
+    cout <<"tagji="<< tagji << endl;
+    if (tagji == 1)
+        return  s.substr(tag - maxlen / 2, maxlen);
+    else
+        return  s.substr(tag - maxlen / 2 + 1, maxlen);
+
+}
+int checkstring(string s, int left, int right)
+{
+    int templeft=left;
+    int tempright=right;
+    while (templeft > 0 && tempright < s.size() - 1 && s[templeft - 1] == s[tempright + 1]) {
+        templeft--;
+        tempright++;
+    }
+    return tempright - templeft + 1;
+}
+int main() {
+    string s = "chabbad";
+    longestPalindrome(s);
+    system("pause");
+    return 0;
+}
