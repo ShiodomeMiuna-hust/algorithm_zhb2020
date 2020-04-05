@@ -1,0 +1,29 @@
+---------------------------------------------
+双指针向中间移动，我翻的题解里面思路有点问题，
+改良版的，内存击败100%，时间击败一半
+---------------------------------------------
+class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        int length1=height.size();
+        int left=0;
+        int right=height.size()-1;
+        int maxlen=0;
+        while(left<right)
+        {
+            int square=0;
+            square=(height[right]>height[left]?height[left]:height[right])*(right-left);
+            if(square>maxlen)
+            maxlen=square;
+            if(height[right]<height[left]&&height[right-1]>height[right])
+            right--;
+            else if(height[left]<height[right]&&height[left+1]>height[left])
+            left++;
+            else if(height[left]<height[right])
+            left++;
+            else
+            right--;
+        }
+        return maxlen;
+    }
+};
