@@ -1,0 +1,39 @@
+---------------------
+之前用链表做过大数加法，
+效果并不理想，下面用数
+组完成大数加法
+---------------------
+class Solution {
+public:
+    vector<int> plusOne(vector<int>& digits) {
+        int length1=digits.size();
+        vector<int >result;
+        stack<int > process;
+        int cnt=length1-1;
+        int tag=1;
+        while(cnt>=0){
+            if(tag==1)
+            digits[cnt]+=1;
+            if(digits[cnt]>=10)
+            {
+                process.push(digits[cnt]-10);
+                tag=1;
+            }
+            else
+            {
+                process.push(digits[cnt]);
+                tag=0;
+            }
+            cnt--;
+        }
+        if(tag==1)
+        process.push(1);
+        while(!process.empty())
+        {
+                result.push_back(process.top());
+                process.pop();
+        }
+        return result;
+
+    }
+};
