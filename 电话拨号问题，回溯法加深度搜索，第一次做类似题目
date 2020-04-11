@@ -1,0 +1,44 @@
+-------------------------------------------
+第一次用回溯法做题，想了一个下午才想明白，附上代码
+应该谁最简单的回溯法加深度遍历了
+------------------------------------------
+
+#include <string>
+#include <iostream>
+#include <vector>
+#include <map>
+using namespace std;
+map<char, string>dict = {
+                          {'2',"abc"},{'3',"def"},
+                          {'4',"ghi"},{'5',"jkl"},
+                          {'6',"mno"},{'7',"pqrs"},
+                          {'8',"tuv"},{'9',"wxyz"}
+};
+vector<string> result;
+string current;
+void DepthFirstSearch(int index, string current, vector<string>& result, string digits);
+void DepthFirstSearch(int index,string current, vector<string> &result,string digits){
+    if (index == digits.size())
+    {
+        result.push_back(current);
+        return;
+    }
+    for (int i = 0; i <= dict[digits[index]].size() - 1; i++)
+    {
+        current.push_back(dict[digits[index]][i]);
+        DepthFirstSearch(index + 1, current, result, digits);
+        current.pop_back();
+    }
+
+}
+int main() {
+    string digits = "234";
+    DepthFirstSearch(0, current, result, digits);
+    int cnt = 0;
+    while (cnt < result.size())
+    {
+        cout << result[cnt] << endl;
+        cnt++;
+    }
+    return 0;
+   }
