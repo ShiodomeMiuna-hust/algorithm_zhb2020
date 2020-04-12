@@ -1,0 +1,43 @@
+---------------------------------
+lc第22题，这题得关键在于括号匹配，我们需要着手的点
+在于要让括号有效，且右边括号数目不能超过左边括号
+否则就会出现括号不匹配的问题
+---------------------------------
+---------------------------------
+这里回溯法得解决思想不在于试探时把括号
+直接push_back进字符串里面，而是直接用函
+树得输入方法，下面附上源码，效率并不是很高
+----------------------------------
+
+#include <string>
+#include <cstdio>
+#include <iostream>
+#include <vector>
+using namespace std;
+string current;
+vector<string> result;
+void DepthSearch(int n, string current, vector<string>& result, int left, int right);
+void DepthSearch(int n,string current, vector<string> &result,int left,int right){
+    if (left == n && right == n)
+        result.push_back(current);
+    else if (left > n || right > n|| right > left)
+        return;
+    else
+    {
+        DepthSearch(n, current+'(', result, left + 1, right);
+        DepthSearch(n, current + ')', result, left, right+1);
+    }
+}
+int main() {
+    int n = 4;
+    DepthSearch(n, current, result,0,0);
+    int cnt = 0;
+    while (cnt < result.size()) {
+        cout << result[cnt] << endl;
+        cnt++;
+    }
+    return 0;
+}
+
+
+
