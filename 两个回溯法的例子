@@ -1,0 +1,118 @@
+------------------------------------------------------------
+第一个是二位矩阵判断能跳多少个能符合条件的格子，写起来比较复杂
+如下所示
+------------------------------------------------------------
+#include <cstdio>
+#include <string>
+#include <vector>
+#include <iostream>
+using namespace std;
+int check = 0;
+int movingCount(int threshold, int rows, int cols);
+int DeepFirstSearch(int x, int y, int threshold, int rows, int cols, vector<vector<int> > &array);
+int movingCount(int threshold, int rows, int cols) {
+
+	vector<vector<int> > array(rows);
+	for (int i = 0; i < rows; i++)
+	{
+		array[i].resize(cols);
+	}
+	//遍历赋值
+	for (int i = 0; i < array.size(); i++)
+	{
+		for (int j = 0; j < array[0].size(); j++)
+		{
+			array[i][j] =0;
+		}
+	}
+	DeepFirstSearch(0, 0, threshold, rows, cols,array);
+	return check;
+}
+int DeepFirstSearch(int x, int y, int threshold, int rows, int cols, vector<vector<int> >& array)
+{
+	if (array[x][y] == 0) 
+	{
+		int tempx = x;
+		int tempy = y;
+		int tempsum = 0;
+		while (tempx != 0)
+		{
+			tempsum += tempx % 10;
+			tempx /= 10;
+		}
+		while (tempy != 0)
+		{
+			tempsum += tempy % 10;
+			tempy /= 10;
+		}
+		if (tempsum <= threshold)
+		{
+			check++;
+		}
+		array[x][y] = 1;
+	}
+	
+		DeepFirstSearch(x, y - 1, threshold, rows, cols, array);
+		DeepFirstSearch(x, y + 1, threshold, rows, cols, array);
+		DeepFirstSearch(x-1, y , threshold, rows, cols, array);
+		DeepFirstSearch(x+1, y, threshold, rows, cols, array);
+	return 0;
+}
+int main() {
+	int rows = 0, cols = 0,threshold=0;
+	cout << "请输入行，列" << endl;
+	cin >> rows;
+	cin >> cols;
+	cout << "输入限制！" << endl;
+	cin >> threshold;
+	int result=movingCount(threshold, rows, cols);
+	cout << result;
+	return 0;
+}
+
+
+
+
+----------------------------------------------------
+class Solution {
+public:
+    bool hasPath(char* matrix, int rows, int cols, char* str)
+    {  
+      if(str==NULL||rows<=0||cols<=0)
+           return false;
+      bool *isOk=new bool[rows*cols]();
+      for(int i=0;i<rows;i++)
+      {
+           for(int j=0;j<cols;j++)
+                if(isHsaPath(matrix,rows,cols,str,isOk,i,j))
+                   return true;
+      }
+      return false;
+    }
+ bool isHsaPath(char *matrix,int rows,int cols,char *str,bool *isOk,int curx,int cury)
+ {
+      if(*str=='\0')
+           return true;
+      if(cury==cols)
+      {
+           curx++;
+           cury=0;
+      }
+      if(cury==-1)
+      {
+           curx--;
+           cury=cols-1;
+      }
+      if(curx<0||curx>=rows)
+           return false;
+      if(isOk[curx*cols+cury]||*str!=matrix[curx*cols+cury])
+           return false;
+      isOk[curx*cols+cury]=true;
+      bool sign=isHsaPath(matrix,rows,cols,str+1,isOk,curx-1,cury)
+       ||isHsaPath(matrix,rows,cols,str+1,isOk,curx+1,cury)
+       ||isHsaPath(matrix,rows,cols,str+1,isOk,curx,cury-1)
+       ||isHsaPath(matrix,rows,cols,str+1,isOk,curx,cury+1);
+      isOk[curx*cols+cury]=false;
+      return sign;
+ }
+};
