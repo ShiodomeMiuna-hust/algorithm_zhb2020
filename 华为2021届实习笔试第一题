@@ -1,0 +1,121 @@
+-------------------------------------
+map加上一个遍历，即可对字符串中出现的
+人名数目进行一个统计，然后选出一个得票
+最多的即可，不是很难，主要是对数据结构
+的一个熟练地使用
+-------------------------------------
+例如Tom,Lily,Tom,Lily,Lucy,要返回Lily
+下面附上代码以及差错检测，就是一些输入
+没来得及判断合不合法
+-------------------------------------
+
+#include <iostream>
+#include <string>
+#include <map>
+#include <cstdio>
+#include <vector>
+using namespace std;
+int main() {
+	vector<string>str;
+	vector<string>result;
+	map<string,int>mapstudent;
+	map<string, int>::iterator iter;
+	char tag;
+	int cnt1 = 0;
+	string current;
+	string solve;
+	cin >> solve;
+	int size1 = solve.length();
+	int cnt = 0;
+	int alarm=0;
+	while (cnt < size1)
+	{
+		if (solve[cnt] != ',' && !(solve[cnt] >= 'a' && solve[cnt] <= 'z') && !(solve[cnt] >= 'A' && solve[cnt] <= 'Z'))
+			alarm = 1;
+		cnt++;
+	}
+	if (alarm == 1)
+	{
+		cout << "error.0001";
+		return 0;
+	}
+	cnt = 0;
+	while(cnt<size1)
+	{
+		current = "";
+		while(solve[cnt] != ',')
+		{
+			if (current == "")
+			{
+				if (!(solve[cnt] >= 'A' && solve[cnt] <= 'Z'))
+				{
+					cout << "error.0001";
+					return 0;
+				}
+			}
+			else
+			{
+				if (!(solve[cnt] >= 'a' && solve[cnt] <= 'z'))
+				{
+					cout << "error.0001";
+					return 0;
+				}
+			}
+			current+=solve[cnt];
+			cnt++;
+			if (cnt == size1)
+			break;
+		}
+		str.push_back(current);
+		cnt++;
+	}
+	int cnt2 = 0;
+	while (cnt2 < str.size())
+	{
+		mapstudent[str[cnt2]]++;
+		cnt2++;
+	}
+	iter = mapstudent.begin();
+	int maxlen = -1;
+	while (iter != mapstudent.end())
+	{
+		if (iter->second > maxlen)
+		{
+			maxlen = iter->second;
+			if (result.size() != 0)
+			{
+				while (result.size() != 0)
+				{
+					result.pop_back();
+				}
+				result.push_back(iter->first);
+			}
+			else
+			{
+				result.push_back(iter->first);
+			}
+			iter++;
+		}
+		else if (iter->second == maxlen)
+		{
+			if (result[0].length() < iter->first.length())
+			{
+				result.pop_back();
+				result.push_back(iter->first);
+			}
+			iter++;
+		}
+		else
+		{
+			iter++;
+		}
+	}
+	int cnt3 = 0;
+	while (cnt3 < result.size())
+	{
+		cout << result[cnt3];
+		cnt3++;
+	}
+
+	return 0;
+}
