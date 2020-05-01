@@ -1,0 +1,43 @@
+------------------------------------------------------------
+现在有N个1和N个-1,现在对这2N个数字进行排序，要求为从1到2N-1
+个树排序后的和加起来不能小于0
+举个例子：
+1，1，-1，-1 、、、、 1，-1，1，-1这两种就是符合条件的，但是
+-1，1，-1，1就是不符合条件的，因为他前三个加起来小于零
+------------------------------------------------------------
+这道题其实就很leet code上的括号生成问题一样，就是变了个形
+下面附上代码
+--------------------------------------------------------------
+一开始我是准备动态规划的，这样的话问题就会变得很复杂，所以用回溯法
+就简单很多，下面附上代码
+------------------------------------------------------------
+一开始我看到只有一百个样例，第一反应就是打表骗分，还是骗了不少的
+
+#include <string>
+#include <cstdio>
+#include <iostream>
+#include <vector>
+using namespace std;
+string current;
+int resultspt = 0;
+vector<string> result;
+void DepthSearch(int n, string current, vector<string>& result, int left, int right);
+void DepthSearch(int n, string current, vector<string>& result, int left, int right) {
+    if (left == n && right == n)
+        resultspt++;
+    else if (left > n || right > n || right > left)
+        return;
+    else
+    {
+        DepthSearch(n, current, result, left + 1, right);
+        DepthSearch(n, current, result, left, right + 1);
+    }
+}
+int main() {
+    int n = 0;
+    cin >> n;
+    DepthSearch(n, current, result, 0, 0);
+    int cnt = 0;
+    cout << resultspt;
+    return 0;
+}
