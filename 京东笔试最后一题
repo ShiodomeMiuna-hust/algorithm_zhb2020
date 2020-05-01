@@ -1,0 +1,107 @@
+-----------------------------------
+一个没有任何dp思想的股票买卖问题
+京东唯一一个是笔试全a了也没面试的公司
+做东子哥兄弟太难
+------------------------------------
+#include <iostream>
+using namespace std;
+int quicksort(int* list, int left, int right);
+int partition(int* list, int left, int right);
+int solveproblem(int* list, int left, int right, int rest,int check);
+int quicksort(int* list, int left, int right) {
+	if (left < right)
+	{
+		int point = partition(list, left, right);
+		quicksort(list, left, point - 1);
+		quicksort(list, point + 1, right);
+	}
+	return 1;
+}
+int partition(int* list, int left, int right)
+{
+	int first = 0;
+	first = list[left];
+	while (left < right) {
+		while (list[right] >= first && left < right)
+		{
+			right--;
+		}
+		int temp = list[left];
+		list[left] = list[right];
+		list[right] = temp;
+		while (list[left] <= first && left < right)
+		{
+			left++;
+		}
+		temp = list[left];
+		list[left] = list[right];
+		list[right] = temp;
+	}
+	return left;
+
+}
+
+int solveproblem(int* list, int left, int right, int rest,int check)
+{
+	int day = 1;
+	int sum = 0;
+	while (check != 0)
+	{
+		if (check >= rest)
+		{
+			int current=0;
+			int cntq = 1;
+			while (cntq <= rest)
+			{
+				current += list[check - cntq];
+				cntq++;
+			}
+			sum = sum + current * day;
+			check -= rest;
+		}
+		else
+		{
+			int current = 0;
+			int cntq = 1;
+			while (cntq <= check)
+			{
+				current += list[check - cntq];
+				cntq++;
+			}
+			sum = sum + current * day;
+			check =0;
+		}
+		day++;
+	}
+	return sum;
+}
+int main() {
+	int sum=0, rest = 0, left, right;
+	int* list;
+	cin >> sum;
+	cin >> rest;
+	list = (int*)malloc(sum);
+	int cnt = 0;
+	while (cnt < sum) {
+		cin >> list[cnt];
+		cnt++;
+	}
+	
+	left = 0;
+	right = sum - 1;
+	quicksort(list, left, right);
+	cnt = 0;
+	int question = 0;
+	int check = 0;
+	int result = 0;
+	cin >> question;
+	while (question != 0)
+	{
+		cin >> check;
+		result=solveproblem(list, 0, sum - 1,rest,check);
+		cout << result<<endl;
+		question--;
+	}
+	
+	return 0;
+}
