@@ -1,0 +1,61 @@
+-----------------------------
+leetcode求和，用了深度搜索的思想
+这是已经优化过的了
+----------------------------
+
+
+
+#include <cstdio>
+#include <vector>
+#include <cmath>
+#include <algorithm>
+#include <iostream>
+using namespace std;
+void deepfirstsearch(vector<int> candidates, vector<int>&tmp, vector<vector<int>>& ans,int target,int index,int sum){ 
+	for (int i = index + 1; i < candidates.size(); i++)
+	{
+		if (i != index + 1 && candidates[i] == candidates[i - 1])
+			continue;
+		else if (sum + candidates[i] > target)
+			return;
+		else if (sum + candidates[i] == target)
+		{
+			tmp.push_back(candidates[i]);
+			ans.push_back(tmp);
+			tmp.pop_back();
+			return;
+		}
+		else
+		{
+			tmp.push_back(candidates[i]);
+			deepfirstsearch(candidates, tmp, ans, target, i, sum+candidates[i]);
+			tmp.pop_back();
+		}
+	}
+};
+int main(){
+	vector<int> candidates;
+	vector<int> tmp;
+	vector<vector<int>> ans;
+	candidates.push_back(10);
+	candidates.push_back(1);
+	candidates.push_back(2);
+	candidates.push_back(7);
+	candidates.push_back(6);
+	candidates.push_back(1);
+	candidates.push_back(5);
+	sort(candidates.begin(), candidates.end());
+	int index = -1;
+	int target = 8;
+	int sum = 0;
+	deepfirstsearch(candidates,tmp,ans,target,index,sum);
+	for (int cnt = 0; cnt < ans.size(); cnt++)
+	{
+		cout << "[";
+		for (int cnt2 = 0; cnt2 < ans[cnt].size(); cnt2++)
+			cout << ans[cnt][cnt2] << ",";
+		cout << "]" << endl;
+	}
+	return 0;
+
+}
