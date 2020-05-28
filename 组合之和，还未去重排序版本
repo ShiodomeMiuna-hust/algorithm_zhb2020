@@ -1,0 +1,59 @@
+-------------------------------------------------------
+比较简单的回溯法应用，可不可以选重复的完全在于循环条件控制
+-------------------------------------------------------
+
+#include <cstdio>
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+using namespace std;
+void solve(vector<vector<int>>& ans, vector<int>& current, vector<int>& candidate, int target, int current_sum, int index) {
+    if (current_sum == target)
+        ans.push_back(current);
+    else if (current_sum > target)
+        return;
+    else
+    {
+        for (int cnt = index; cnt < candidate.size(); cnt++)
+        {
+            cout << "先看看：";
+            int q = 0;
+            while (q < current.size())
+            {
+                cout << current[q++]<<"__";
+            }
+            cout << endl;
+            current.push_back(candidate[cnt]);
+            solve(ans, current, candidate, target,current_sum+candidate[cnt], index);
+            current.pop_back();
+        }
+    }
+}
+int main() {
+    vector<vector<int>>ans;
+    vector<int> current;
+    vector<int> candidate;
+    int target = 7;
+    int index=0;
+    int current_sum = 0;
+    candidate.push_back(6);
+    candidate.push_back(7); 
+    candidate.push_back(3);
+    candidate.push_back(2);
+    sort(candidate.begin(), candidate.end());
+    solve(ans, current, candidate, target,0,index);
+    cout << "最后结果" << endl;
+    int m = 0;
+    while (m < ans.size())
+    {
+        int n = 0;
+        while (n < ans[m].size())
+        {
+            cout << ans[m][n++] << ",";
+        }
+        m++;
+        cout << endl;
+    }
+    return 0;
+}
