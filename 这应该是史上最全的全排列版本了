@@ -1,0 +1,123 @@
+----------------------------------------------------------
+#include <cstdio>
+#include <string>
+#include <iostream>
+#include <vector>
+using namespace std;
+void  dfs_backtrack(vector<vector<int>> result, vector<int > mid_result, vector<int > nums)
+{
+	if (mid_result.size() == nums.size())
+	{
+		for (int cnt = 0; cnt < mid_result.size(); cnt++)
+		{
+			cout << mid_result[cnt];
+		}
+		cout << "," << endl;
+		result.push_back(mid_result);
+	}
+	else
+	{
+		for (int i = 0; i < nums.size(); i++)
+		{
+			if (find(mid_result.begin(), mid_result.end(), nums[i]) != mid_result.end())
+				continue;
+			else
+			{
+				mid_result.push_back(nums[i]);
+				dfs_backtrack(result, mid_result, nums);
+				mid_result.pop_back();
+			}
+		}
+	}
+}
+int main()
+{
+	vector<int > nums;
+	nums.push_back(1);
+	nums.push_back(2);
+	nums.push_back(3);
+	vector<int > mid_result;
+	vector<vector<int>> result;
+	dfs_backtrack(result, mid_result, nums);
+	return 0;
+}
+----------------------------------------------
+#include <cstdio>
+#include <string>
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+void dfs_backtrack(string str, string mid_str, vector<string>& strs)
+{
+	if (mid_str.size() == str.size())
+	{
+		strs.push_back(mid_str);
+	}
+	else
+	{
+		for (int cnt = 0; cnt < str.size(); cnt++)
+		{
+			if (find(mid_str.begin(), mid_str.end(), str[cnt]) != mid_str.end())
+				continue;
+			else
+			{
+				mid_str=mid_str+str[cnt];
+				dfs_backtrack(str, mid_str, strs);
+				mid_str = mid_str.substr(0, mid_str.size() - 1);
+			}
+		}
+	}
+}
+int main() {
+	string str = "abc";
+	vector<string> strs;
+	string mid_str = "";
+	dfs_backtrack(str, mid_str, strs);
+	sort(strs.begin(), strs.end());
+	for (int cnt = 0; cnt < strs.size(); cnt++)
+	cout << strs[cnt] << endl;
+	return 0;
+}
+------------------------------------------------------------------
+#include <cstdio>
+#include <string>
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+void dfs_backtrack(string str, string mid_str, vector<string>& strs, vector<int> tag)
+{
+	if (mid_str.size() == str.size())
+	{
+		if(strs.end()==find(strs.begin(), strs.end(), mid_str))
+		strs.push_back(mid_str);
+	}
+	else
+	{
+		for (int cnt = 0; cnt < str.size(); cnt++)
+		{
+			if (tag[cnt]==1)
+				continue;
+			else
+			{
+				mid_str = mid_str + str[cnt];
+				tag[cnt] = 1;
+				dfs_backtrack(str, mid_str, strs,tag);
+				mid_str = mid_str.substr(0, mid_str.size() - 1);
+				tag[cnt] = 0;
+			}
+		}
+	}
+}
+int main() {
+	string str = "aabc";
+	vector<int> tag(str.size());
+	vector<string> strs;
+	string mid_str = "";
+	dfs_backtrack(str, mid_str, strs,tag);
+	sort(strs.begin(), strs.end());
+	for (int cnt = 0; cnt < strs.size(); cnt++)
+		cout << strs[cnt] << endl;
+	return 0;
+}
