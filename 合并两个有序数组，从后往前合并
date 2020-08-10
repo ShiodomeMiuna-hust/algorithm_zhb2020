@@ -1,0 +1,38 @@
+class Solution {
+public:
+    void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+        int point1=m-1,point2=n-1;
+        int point=m+n-1;
+        while(point>=0)
+        {
+            if(point1<0)
+            {
+                for(int cnt=0;cnt<=point2;cnt++)
+                {
+                    nums1[cnt]=nums2[cnt];
+                    point--;
+                }
+            }
+            else if(point2<0)
+            {
+                for(int cnt=0;cnt<=point1;cnt++)
+                {
+                    nums1[cnt]=nums1[cnt];
+                    point--;
+                }
+            }
+            else if(nums1[point1]>=nums2[point2])
+            {
+                nums1[point]=nums1[point1];
+                point--;
+                point1--;
+            }
+            else
+            {
+                nums1[point]=nums2[point2];
+                point--;
+                point2--;
+            }
+        }
+    }
+};
