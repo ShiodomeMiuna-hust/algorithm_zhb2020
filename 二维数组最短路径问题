@@ -1,0 +1,33 @@
+经过高强度的动态规划锻炼，现在这种题已经随便切了
+----------------------------------------------------
+class Solution {
+public:
+    int minPathSum(vector<vector<int>>& grid) {
+    if(grid.empty()==1)
+    return 0;
+    vector<vector<int>> result(grid.size());
+	for (int cnt = 0; cnt < grid.size(); cnt++)
+	{
+		result[cnt].resize(grid[0].size());
+	}
+
+	int x = 0, y = 0;
+	for (int x = 0; x < grid.size(); x++) {
+		for (int y = 0; y < grid[0].size(); y++) {
+			if (x == 0 && y == 0) {
+				result[x][y] = grid[0][0];
+			}
+			else if (x == 0 && y != 0) {
+				result[x][y] = result[x][y - 1] + grid[x][y];
+			}
+			else if (x != 0 && y == 0) {
+				result[x][y] = result[x - 1][y] + grid[x][y];
+			}
+			else {
+				result[x][y] = result[x - 1][y] + grid[x][y] > result[x][y - 1] + grid[x][y] ? result[x][y - 1] + grid[x][y] : result[x - 1][y] + grid[x][y];
+			}
+		}
+	}
+	return result[result.size() - 1][result[0].size() - 1];
+    }
+};
